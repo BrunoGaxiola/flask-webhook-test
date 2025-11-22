@@ -1,13 +1,10 @@
-import os
-from dotenv import load_dotenv
 from flask import Flask, request
 
 app = Flask(__name__)
-load_dotenv()
 
-VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+VERIFY_TOKEN = "cX8H6N37n1u/yTO5xPeEf8bGNG+otUedsEqvxFzeyNc"
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST", "HEAD"])
 def webhook():
 
     # --- Verificación del webhook (Meta envía GET) ---
