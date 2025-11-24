@@ -78,9 +78,11 @@ def webhook():
 
                     # Respond based on the payload
                     if button_payload == "Si, confirmo la cita.":
-                        send_whatsapp_message(sender, "¡Perfecto! Tu cita ha sido confirmada. 🗓️")
+                        send_whatsapp_message(sender, "Perfecto, tu cita ha sido confirmada. Nos vemos pronto.")
+                    elif button_payload == "No, cancelo la cita.":
+                        send_whatsapp_message(sender, "De acuerdo, tu cita ha sido cancelada.")
                     else:
-                        send_whatsapp_message(sender, "Recibí tu respuesta del botón.")
+                        send_whatsapp_message(sender, "Esa respuesta no es válida. Seleccione una opción válida.")
         except Exception as e:
             print("Error handling webhook:", e)
 
