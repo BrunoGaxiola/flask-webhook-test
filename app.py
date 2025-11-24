@@ -3,12 +3,12 @@ import requests
 from dotenv import load_dotenv
 import os
 
-app = Flask(__name__)
 load_dotenv()
+app = Flask(__name__)
 
 VERIFY_TOKEN = "cX8H6N37n1u/yTO5xPeEf8bGNG+otUedsEqvxFzeyNc"
 ACCESS_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
-PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
+PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
 
 def send_whatsapp_message(to, message):
     url = f"https://graph.facebook.com/v22.0/{PHONE_NUMBER_ID}/messages"
