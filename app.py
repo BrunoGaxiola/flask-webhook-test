@@ -27,6 +27,39 @@ def send_whatsapp_message(to, message):
     print("Send message response:", response.json())
     return response.json()
 
+def send_confirmation_message(to, payload):
+    url = f"https://graph.facebook.com/v22.0/{PHONE_NUMBER_ID}/messages"
+    headers = {
+        "Authorization": f"Bearer {ACCESS_TOKEN}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "messaging_product": "whatsapp",
+        "recipient_type": "individual",
+        "to": to,
+        "type": "template",
+        "template": {
+            "name": "opcion_seleccionada",
+            "language": {"code": "es_MX"},
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                           "type": "text",
+                           "parameter_name": "opcion_seleccionada",
+                           "text": f"{payload}" 
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+    response = requests.post(url, json=data, headers=headers)
+    print("Send message response:", response.json())
+    return response.json()
+
 @app.route("/", methods=["GET", "POST", "HEAD"])
 def webhook():
 
@@ -78,9 +111,11 @@ def webhook():
 
                     # Respond based on the payload
                     if button_payload == "Si, confirmo la cita.":
-                        send_whatsapp_message(sender, "Perfecto, tu cita ha sido confirmada. Nos vemos pronto.")
+                        send_confirmation_message(sender, button_payload)
                     elif button_payload == "No, cancelo la cita.":
                         send_whatsapp_message(sender, "De acuerdo, tu cita ha sido cancelada.")
+                    elif button_payload == "Confirmo mi selección":
+                        send_whatsapp_message(sender, "Perfecto, tu cita ha sido confirmada. Nos vemos pronto.")
                     else:
                         send_whatsapp_message(sender, "Esa respuesta no es válida. Seleccione una opción válida.")
         except Exception as e:
